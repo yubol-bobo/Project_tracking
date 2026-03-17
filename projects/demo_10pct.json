@@ -1,0 +1,19 @@
+{
+  "name": "Demo - 10% Progress",
+  "description": "Project at idea brainstorm stage.",
+  "steps": [
+    { "label": "Idea Brainstorm",   "status": "current" },
+    { "label": "Experiment Design", "status": "pending" },
+    { "label": "Running Exp",       "status": "pending" },
+    { "label": "Results",           "status": "pending" },
+    { "label": "Paper Drafting",    "status": "pending" }
+  ],
+  "venue": "ICLR 2027",
+  "timeline": [
+    { "label": "Abstract Due",   "date": "2026-09-20" },
+    { "label": "Full Paper Due", "date": "2026-09-27" },
+    { "label": "Reviewing",      "date": "2026-10-15" },
+    { "label": "Review Release", "date": "2026-12-01" },
+    { "label": "Decision",       "date": "2027-01-15" }
+  ]
+}

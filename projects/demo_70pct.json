@@ -1,0 +1,19 @@
+{
+  "name": "Demo - 70% Progress",
+  "description": "Project at results stage.",
+  "steps": [
+    { "label": "Idea Brainstorm",   "status": "done" },
+    { "label": "Experiment Design", "status": "done" },
+    { "label": "Running Exp",       "status": "done" },
+    { "label": "Results",           "status": "current" },
+    { "label": "Paper Drafting",    "status": "pending" }
+  ],
+  "venue": "CVPR 2026",
+  "timeline": [
+    { "label": "Abstract Due",   "date": "2026-03-01" },
+    { "label": "Full Paper Due", "date": "2026-03-08" },
+    { "label": "Reviewing",      "date": "2026-04-01" },
+    { "label": "Review Release", "date": "2026-05-15" },
+    { "label": "Decision",       "date": "2026-06-01" }
+  ]
+}

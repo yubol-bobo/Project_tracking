@@ -1,0 +1,19 @@
+{
+  "name": "Demo - 100% Progress",
+  "description": "Project fully completed.",
+  "steps": [
+    { "label": "Idea Brainstorm",   "status": "done" },
+    { "label": "Experiment Design", "status": "done" },
+    { "label": "Running Exp",       "status": "done" },
+    { "label": "Results",           "status": "done" },
+    { "label": "Paper Drafting",    "status": "done" }
+  ],
+  "venue": "AAAI 2026",
+  "timeline": [
+    { "label": "Abstract Due",   "date": "2025-08-01" },
+    { "label": "Full Paper Due", "date": "2025-08-08" },
+    { "label": "Reviewing",      "date": "2025-09-01" },
+    { "label": "Review Release", "date": "2025-11-01" },
+    { "label": "Decision",       "date": "2025-12-01" }
+  ]
+}

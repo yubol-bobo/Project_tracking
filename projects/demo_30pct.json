@@ -1,0 +1,19 @@
+{
+  "name": "Demo - 30% Progress",
+  "description": "Project at experiment design stage.",
+  "steps": [
+    { "label": "Idea Brainstorm",   "status": "done" },
+    { "label": "Experiment Design", "status": "current" },
+    { "label": "Running Exp",       "status": "pending" },
+    { "label": "Results",           "status": "pending" },
+    { "label": "Paper Drafting",    "status": "pending" }
+  ],
+  "venue": "ICML 2026",
+  "timeline": [
+    { "label": "Abstract Due",   "date": "2026-06-01" },
+    { "label": "Full Paper Due", "date": "2026-06-08" },
+    { "label": "Reviewing",      "date": "2026-07-01" },
+    { "label": "Review Release", "date": "2026-08-15" },
+    { "label": "Decision",       "date": "2026-09-01" }
+  ]
+}
