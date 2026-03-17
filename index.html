@@ -293,31 +293,15 @@
 
     applyTheme(getTheme());
 
-    // ============================================================
-    // EDIT YOUR PROJECTS HERE
-    // ============================================================
-    const projects = [
-      {
-        name: "Example Project A",
-        description: "A brief description of what this project is about.",
-        steps: [
-          { label: "Idea Brainstorm",    status: "done" },
-          { label: "Experiment Design",  status: "done" },
-          { label: "Running Exp",        status: "current" },
-          { label: "Results",            status: "pending" },
-          { label: "Paper Drafting",     status: "pending" },
-        ],
-        venue: "NeurIPS 2026",
-        timeline: [
-          { label: "Abstract Due",   date: "2026-05-10" },
-          { label: "Full Paper Due", date: "2026-05-17" },
-          { label: "Reviewing",      date: "2026-06-01" },
-          { label: "Review Release", date: "2026-07-15" },
-          { label: "Decision",       date: "2026-08-01" },
-        ],
-      },
-    ];
-    // ============================================================
+    // ---- Load projects from projects/ directory ----
+    async function loadProjects() {
+      const indexRes = await fetch("projects/index.json");
+      const files = await indexRes.json();
+      const projects = await Promise.all(
+        files.map(f => fetch(`projects/${f}`).then(r => r.json()))
+      );
+      return projects;
+    }
 
     const ICONS = { done: "\u2713", current: "\u25B8", pending: "\u2022" };
 
@@ -363,7 +347,7 @@
 
     function toggle(id) { document.getElementById(id).classList.toggle("open"); }
 
-    function render() {
+    function render(projects) {
       document.getElementById("projects-container").innerHTML = projects.map((p, i) => {
         const pct = progress(p.steps);
         const tl = tlStatus(p.timeline);
@@ -407,7 +391,7 @@
     }
 
     document.getElementById("update-date").textContent = new Date().toLocaleDateString();
-    render();
+    loadProjects().then(render);
   </script>
 </body>
 </html>

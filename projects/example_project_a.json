@@ -1,0 +1,19 @@
+{
+  "name": "Example Project A",
+  "description": "A brief description of what this project is about.",
+  "steps": [
+    { "label": "Idea Brainstorm",   "status": "done" },
+    { "label": "Experiment Design", "status": "done" },
+    { "label": "Running Exp",       "status": "current" },
+    { "label": "Results",           "status": "pending" },
+    { "label": "Paper Drafting",    "status": "pending" }
+  ],
+  "venue": "NeurIPS 2026",
+  "timeline": [
+    { "label": "Abstract Due",   "date": "2026-05-10" },
+    { "label": "Full Paper Due", "date": "2026-05-17" },
+    { "label": "Reviewing",      "date": "2026-06-01" },
+    { "label": "Review Release", "date": "2026-07-15" },
+    { "label": "Decision",       "date": "2026-08-01" }
+  ]
+}
