@@ -94,18 +94,23 @@
       margin-top: 0.4rem;
     }
 
-    /* Theme toggle */
-    .theme-toggle {
+    /* Header controls */
+    .header-controls {
       position: absolute;
       top: 0;
       right: 0;
-      width: 40px;
-      height: 40px;
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .header-btn {
+      width: 36px;
+      height: 36px;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       background: var(--toggle-bg);
       color: var(--text-muted);
-      font-size: 1.15rem;
+      font-size: 1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -113,7 +118,7 @@
       transition: background 0.2s, transform 0.2s;
     }
 
-    .theme-toggle:hover {
+    .header-btn:hover {
       background: var(--toggle-hover);
       transform: scale(1.08);
     }
@@ -272,12 +277,33 @@
     <div class="header">
       <h1>Project Tracking</h1>
       <p>Updated <span id="update-date"></span></p>
-      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" id="theme-btn"></button>
+      <div class="header-controls">
+        <button class="header-btn" onclick="changeFontSize(-10)" title="Smaller text">A-</button>
+        <button class="header-btn" onclick="changeFontSize(10)" title="Larger text">A+</button>
+        <button class="header-btn" onclick="toggleTheme()" title="Toggle light/dark mode" id="theme-btn"></button>
+      </div>
     </div>
     <div id="projects-container"></div>
   </div>
 
   <script>
+    // ---- Font size ----
+    function getFontSize() {
+      return parseInt(localStorage.getItem("fontSize") || "120");
+    }
+
+    function applyFontSize(size) {
+      document.documentElement.style.fontSize = size + "%";
+    }
+
+    function changeFontSize(delta) {
+      let size = Math.min(180, Math.max(80, getFontSize() + delta));
+      localStorage.setItem("fontSize", size);
+      applyFontSize(size);
+    }
+
+    applyFontSize(getFontSize());
+
     // ---- Theme toggle ----
     function getTheme() {
       return localStorage.getItem("theme") || "dark";
