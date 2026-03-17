@@ -4,165 +4,226 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project Tracking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --card-hover: #1f2230;
+      --border: rgba(255,255,255,0.06);
+      --text: #e4e4e7;
+      --text-muted: #71717a;
+      --accent: #6366f1;
+      --accent-glow: rgba(99,102,241,0.15);
+      --green: #22c55e;
+      --yellow: #eab308;
+      --blue: #3b82f6;
+      --red: #ef4444;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #f0f2f5;
-      color: #333;
-      padding: 2rem;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
     }
 
-    h1 { text-align: center; margin-bottom: 0.5rem; font-size: 2rem; }
-    .subtitle { text-align: center; color: #666; margin-bottom: 2rem; }
-    .last-updated { text-align: center; color: #999; font-size: 0.85rem; margin-bottom: 2rem; }
-
-    .projects {
-      max-width: 900px;
+    .page {
+      max-width: 860px;
       margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+      padding: 3rem 1.5rem;
     }
 
-    .project-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
     }
 
-    .project-name { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .project-description { color: #666; font-size: 0.9rem; margin-bottom: 1.2rem; }
+    .header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6366f1, #a78bfa, #6366f1);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s ease infinite;
+    }
 
-    /* ---- Project Progress Bar ---- */
-    .section-title {
-      font-size: 0.9rem;
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 0.4rem;
+    }
+
+    /* Card */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.6rem;
+      margin-bottom: 1.25rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      border-color: rgba(99,102,241,0.2);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
       font-weight: 600;
-      color: #444;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.3rem;
     }
 
-    .progress-bar-wrapper {
+    .card-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1.3rem;
+      line-height: 1.5;
+    }
+
+    /* Section label */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Progress bar */
+    .progress-wrap {
       cursor: pointer;
-      user-select: none;
+      margin-bottom: 0.3rem;
     }
 
-    .progress-bar-wrapper .hint {
-      font-size: 0.75rem;
-      color: #aaa;
-      margin-top: 0.2rem;
-    }
-
-    .progress-bar {
-      height: 12px;
-      background: #e9ecef;
-      border-radius: 6px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .progress-fill {
-      height: 100%;
-      border-radius: 6px;
-      transition: width 0.4s ease;
-    }
-
-    .fill-low       { background: #dc3545; }
-    .fill-medium    { background: #ffc107; }
-    .fill-high      { background: #28a745; }
-    .fill-complete  { background: #17a2b8; }
-
-    .progress-label {
+    .progress-top {
       display: flex;
       justify-content: space-between;
-      font-size: 0.85rem;
-      margin-bottom: 0.3rem;
-      color: #555;
+      align-items: center;
+      margin-bottom: 0.35rem;
     }
 
-    /* ---- Steps Dropdown ---- */
-    .steps-dropdown {
+    .progress-pct {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .progress-hint {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .bar-track {
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .bar-fill.low    { background: linear-gradient(90deg, var(--red), #f97316); }
+    .bar-fill.mid    { background: linear-gradient(90deg, #f97316, var(--yellow)); }
+    .bar-fill.high   { background: linear-gradient(90deg, var(--yellow), var(--green)); }
+    .bar-fill.full   { background: linear-gradient(90deg, var(--green), #06b6d4); }
+
+    /* Steps dropdown */
+    .steps-panel {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.35s ease;
     }
 
-    .steps-dropdown.open {
-      max-height: 400px;
-    }
+    .steps-panel.open { max-height: 320px; }
 
-    .steps-list {
+    .steps {
       list-style: none;
-      padding: 0.6rem 0 0.2rem 0;
+      padding: 0.5rem 0 0.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
     }
 
-    .steps-list li {
+    .steps li {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      padding: 0.45rem 0.8rem;
-      font-size: 0.88rem;
-      border-radius: 6px;
+      gap: 0.65rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      transition: background 0.2s;
     }
 
-    .steps-list li:nth-child(odd) { background: #f8f9fa; }
+    .steps li:hover { background: rgba(255,255,255,0.03); }
 
-    .step-icon {
-      width: 20px;
-      height: 20px;
+    .dot {
+      width: 22px; height: 22px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.7rem;
-      flex-shrink: 0;
-      color: #fff;
+      font-size: 0.65rem;
       font-weight: 700;
+      flex-shrink: 0;
     }
 
-    .step-done     .step-icon { background: #28a745; }
-    .step-current  .step-icon { background: #ffc107; color: #333; }
-    .step-pending  .step-icon { background: #ccc; }
+    .step-done    .dot { background: var(--green); color: #fff; }
+    .step-current .dot { background: var(--yellow); color: #333; }
+    .step-pending .dot { background: rgba(255,255,255,0.08); color: var(--text-muted); }
+    .step-pending span:last-child { color: var(--text-muted); }
 
-    .step-label { color: #333; }
-    .step-pending .step-label { color: #999; }
+    /* Timeline */
+    .timeline-section { margin-top: 1.4rem; }
 
-    /* ---- Venue Timeline ---- */
-    .venue-section { margin-top: 1.4rem; }
+    .venue-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--blue);
+      margin-bottom: 0.6rem;
+    }
 
     .timeline {
       display: flex;
-      align-items: flex-start;
       position: relative;
-      margin-top: 0.5rem;
-      padding: 0 0.5rem;
+      padding: 0 0.25rem;
     }
 
-    .timeline-track {
+    .tl-track {
       position: absolute;
-      top: 14px;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: #e0e0e0;
+      top: 9px;
+      left: 0; right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.06);
       border-radius: 2px;
-      z-index: 0;
     }
 
-    .timeline-fill {
+    .tl-fill {
       position: absolute;
-      top: 14px;
+      top: 9px;
       left: 0;
-      height: 4px;
-      background: #007bff;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--blue));
       border-radius: 2px;
-      z-index: 1;
-      transition: width 0.4s ease;
+      transition: width 0.5s ease;
     }
 
-    .timeline-event {
+    .tl-event {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -171,64 +232,50 @@
       z-index: 2;
     }
 
-    .timeline-dot {
-      width: 14px;
-      height: 14px;
+    .tl-dot {
+      width: 10px; height: 10px;
       border-radius: 50%;
-      border: 3px solid #e0e0e0;
-      background: #fff;
-      margin-bottom: 0.4rem;
-      position: relative;
-      z-index: 3;
+      border: 2.5px solid rgba(255,255,255,0.12);
+      background: var(--card);
+      margin-bottom: 0.45rem;
+      transition: all 0.3s;
     }
 
-    .timeline-dot.past {
-      background: #007bff;
-      border-color: #007bff;
-    }
+    .tl-dot.past    { background: var(--accent); border-color: var(--accent); }
+    .tl-dot.current { background: var(--card); border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); }
+    .tl-dot.future  { background: var(--card); border-color: rgba(255,255,255,0.1); }
 
-    .timeline-dot.current {
-      background: #fff;
-      border-color: #007bff;
-      box-shadow: 0 0 0 4px rgba(0,123,255,0.2);
-    }
-
-    .timeline-dot.future {
-      background: #fff;
-      border-color: #ccc;
-    }
-
-    .timeline-label {
-      font-size: 0.72rem;
+    .tl-label {
+      font-size: 0.65rem;
       text-align: center;
-      color: #666;
-      line-height: 1.2;
-      max-width: 80px;
+      color: var(--text-muted);
+      line-height: 1.25;
+      max-width: 72px;
     }
 
-    .timeline-date {
-      font-size: 0.68rem;
-      color: #999;
-      text-align: center;
+    .tl-label.past-label    { color: var(--text); }
+    .tl-label.current-label { color: var(--accent); font-weight: 600; }
+
+    .tl-date {
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.2);
       margin-top: 0.15rem;
     }
 
-    .timeline-label.current-label { color: #007bff; font-weight: 600; }
-    .timeline-label.past-label { color: #333; }
-
     @media (max-width: 600px) {
-      body { padding: 1rem; }
-      .timeline-label { font-size: 0.65rem; max-width: 60px; }
+      .page { padding: 2rem 1rem; }
+      .tl-label { font-size: 0.58rem; max-width: 56px; }
     }
   </style>
 </head>
 <body>
-
-  <h1>Project Tracking</h1>
-  <p class="subtitle">Research Projects &amp; Paper Submissions</p>
-  <p class="last-updated">Last updated: <span id="update-date"></span></p>
-
-  <div class="projects" id="projects-container"></div>
+  <div class="page">
+    <div class="header">
+      <h1>Project Tracking</h1>
+      <p>Updated <span id="update-date"></span></p>
+    </div>
+    <div id="projects-container"></div>
+  </div>
 
   <script>
     // ============================================================
@@ -238,7 +285,6 @@
       {
         name: "Example Project A",
         description: "A brief description of what this project is about.",
-        // Project steps: set status to "done", "current", or "pending"
         steps: [
           { label: "Idea Brainstorm",    status: "done" },
           { label: "Experiment Design",  status: "done" },
@@ -246,7 +292,6 @@
           { label: "Results",            status: "pending" },
           { label: "Paper Drafting",     status: "pending" },
         ],
-        // Venue submission timeline — dates drive auto-status
         venue: "NeurIPS 2026",
         timeline: [
           { label: "Abstract Due",   date: "2026-05-10" },
@@ -259,113 +304,87 @@
     ];
     // ============================================================
 
-    const STEP_ICONS = { done: "\u2713", current: "\u25B6", pending: "\u2022" };
+    const ICONS = { done: "\u2713", current: "\u25B8", pending: "\u2022" };
 
-    function getOverallProgress(steps) {
-      const weights = { done: 1, current: 0.5, pending: 0 };
-      const total = steps.reduce((sum, s) => sum + (weights[s.status] || 0), 0);
-      return Math.round((total / steps.length) * 100);
+    function progress(steps) {
+      const w = { done: 1, current: 0.5, pending: 0 };
+      return Math.round(steps.reduce((s, st) => s + (w[st.status]||0), 0) / steps.length * 100);
     }
 
-    function getProgressClass(pct) {
-      if (pct >= 100) return "fill-complete";
-      if (pct >= 66)  return "fill-high";
-      if (pct >= 33)  return "fill-medium";
-      return "fill-low";
+    function barClass(p) {
+      if (p >= 100) return "full";
+      if (p >= 66)  return "high";
+      if (p >= 33)  return "mid";
+      return "low";
     }
 
-    function getTimelineStatus(events) {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+    function tlStatus(events) {
+      const today = new Date(); today.setHours(0,0,0,0);
       return events.map((ev, i) => {
-        const evDate = new Date(ev.date + "T00:00:00");
-        const nextDate = (i < events.length - 1) ? new Date(events[i + 1].date + "T00:00:00") : null;
-        let status;
-        if (today >= evDate && (nextDate === null || today < nextDate)) {
-          status = "current";
-        } else if (today >= evDate) {
-          status = "past";
-        } else {
-          status = "future";
-        }
-        return { ...ev, status };
+        const d = new Date(ev.date+"T00:00:00");
+        const nx = i < events.length-1 ? new Date(events[i+1].date+"T00:00:00") : null;
+        let s = today >= d ? (nx === null || today < nx ? "current" : "past") : "future";
+        return { ...ev, status: s };
       });
     }
 
-    function getTimelineFillPercent(events) {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const dates = events.map(e => new Date(e.date + "T00:00:00"));
+    function tlFill(events) {
+      const today = new Date(); today.setHours(0,0,0,0);
+      const dates = events.map(e => new Date(e.date+"T00:00:00"));
       if (today <= dates[0]) return 0;
-      if (today >= dates[dates.length - 1]) return 100;
-      for (let i = 0; i < dates.length - 1; i++) {
-        if (today >= dates[i] && today < dates[i + 1]) {
-          const segStart = i / (dates.length - 1) * 100;
-          const segEnd = (i + 1) / (dates.length - 1) * 100;
-          const ratio = (today - dates[i]) / (dates[i + 1] - dates[i]);
-          return segStart + ratio * (segEnd - segStart);
+      if (today >= dates[dates.length-1]) return 100;
+      for (let i = 0; i < dates.length-1; i++) {
+        if (today >= dates[i] && today < dates[i+1]) {
+          const a = i/(dates.length-1)*100, b = (i+1)/(dates.length-1)*100;
+          return a + (today-dates[i])/(dates[i+1]-dates[i])*(b-a);
         }
       }
       return 0;
     }
 
-    function formatDate(dateStr) {
-      const d = new Date(dateStr + "T00:00:00");
-      return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    function fmtDate(s) {
+      return new Date(s+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"});
     }
 
-    function toggleSteps(id) {
-      document.getElementById(id).classList.toggle("open");
-    }
+    function toggle(id) { document.getElementById(id).classList.toggle("open"); }
 
-    function renderProjects() {
-      const container = document.getElementById("projects-container");
-      container.innerHTML = projects.map((p, idx) => {
-        const progress = getOverallProgress(p.steps);
-        const tlEvents = getTimelineStatus(p.timeline);
-        const fillPct = getTimelineFillPercent(p.timeline);
-        const stepsId = `steps-${idx}`;
-
+    function render() {
+      document.getElementById("projects-container").innerHTML = projects.map((p, i) => {
+        const pct = progress(p.steps);
+        const tl = tlStatus(p.timeline);
+        const fill = tlFill(p.timeline);
+        const sid = `s${i}`;
         return `
-        <div class="project-card">
-          <div class="project-name">${p.name}</div>
-          <div class="project-description">${p.description}</div>
+        <div class="card">
+          <div class="card-title">${p.name}</div>
+          <div class="card-desc">${p.description}</div>
 
-          <!-- Project Progress -->
-          <div class="section-title">Project Progress</div>
-          <div class="progress-bar-wrapper" onclick="toggleSteps('${stepsId}')">
-            <div class="progress-label">
-              <span>Click to see steps</span>
-              <span>${progress}%</span>
+          <div class="section-label">Project Progress</div>
+          <div class="progress-wrap" onclick="toggle('${sid}')">
+            <div class="progress-top">
+              <span class="progress-hint">Click to expand</span>
+              <span class="progress-pct">${pct}%</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-fill ${getProgressClass(progress)}" style="width:${progress}%"></div>
-            </div>
+            <div class="bar-track"><div class="bar-fill ${barClass(pct)}" style="width:${pct}%"></div></div>
           </div>
-          <div class="steps-dropdown" id="${stepsId}">
-            <ul class="steps-list">
-              ${p.steps.map(s => `
-                <li class="step-${s.status}">
-                  <span class="step-icon">${STEP_ICONS[s.status]}</span>
-                  <span class="step-label">${s.label}</span>
-                </li>
-              `).join("")}
+          <div class="steps-panel" id="${sid}">
+            <ul class="steps">
+              ${p.steps.map(s=>`<li class="step-${s.status}"><span class="dot">${ICONS[s.status]}</span><span>${s.label}</span></li>`).join("")}
             </ul>
           </div>
 
-          <!-- Venue Submission Timeline -->
-          <div class="venue-section">
-            <div class="section-title">Venue: ${p.venue}</div>
+          <div class="timeline-section">
+            <div class="section-label">Venue Submission</div>
+            <div class="venue-name">${p.venue}</div>
             <div class="timeline">
-              <div class="timeline-track"></div>
-              <div class="timeline-fill" style="width:${fillPct}%"></div>
-              ${tlEvents.map(ev => `
-                <div class="timeline-event">
-                  <div class="timeline-dot ${ev.status}"></div>
-                  <div class="timeline-label ${ev.status}-label">${ev.label}</div>
-                  <div class="timeline-date">${formatDate(ev.date)}</div>
-                </div>
-              `).join("")}
+              <div class="tl-track"></div>
+              <div class="tl-fill" style="width:${fill}%"></div>
+              ${tl.map(ev=>`
+                <div class="tl-event">
+                  <div class="tl-dot ${ev.status}"></div>
+                  <div class="tl-label ${ev.status}-label">${ev.label}</div>
+                  <div class="tl-date">${fmtDate(ev.date)}</div>
+                </div>`).join("")}
             </div>
           </div>
         </div>`;
@@ -373,8 +392,7 @@
     }
 
     document.getElementById("update-date").textContent = new Date().toLocaleDateString();
-    renderProjects();
+    render();
   </script>
-
 </body>
 </html>
