@@ -1,5 +1,8 @@
 # Project Tracking
 
+![20260317_160314-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/8a5585dd-afe9-43b1-8568-698f6f0a29a6)
+
+
 A minimal, modern dashboard to track research projects and paper submissions. Built as a static site deployed via GitHub Pages.
 
 **Live demo**: [yubol-bobo.github.io/Project_tracking](https://yubol-bobo.github.io/Project_tracking/)
