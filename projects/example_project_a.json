@@ -6,7 +6,7 @@
     { "label": "Experiment Design", "status": "done" },
     { "label": "Running Exp",       "status": "current" },
     { "label": "Results",           "status": "pending" },
-    { "label": "Paper Drafting",    "status": "pending" }
+    { "label": "Paper Drafting",    "status": "pending", "link": "https://www.overleaf.com/project/example" }
   ],
   "venue": "NeurIPS 2026",
   "venueUrl": "https://openreview.net/group?id=NeurIPS.cc/2026/Conference",

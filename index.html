@@ -213,6 +213,8 @@
     .step-current .dot { background: var(--yellow); color: #333; }
     .step-pending .dot { background: var(--step-pending-bg); color: var(--text-muted); }
     .step-pending span:last-child { color: var(--text-muted); }
+    .step-link { margin-left: auto; text-decoration: none; font-size: 0.8rem; opacity: 0.5; transition: opacity 0.2s; }
+    .step-link:hover { opacity: 1; }
 
     /* Timeline */
     .timeline-section { margin-top: 1.4rem; }
@@ -362,7 +364,7 @@
           </div>
           <div class="steps-panel" id="${sid}">
             <ul class="steps">
-              ${p.steps.map(s=>`<li class="step-${s.status}"><span class="dot">${ICONS[s.status]}</span><span>${s.label}</span></li>`).join("")}
+              ${p.steps.map(s=>`<li class="step-${s.status}"><span class="dot">${ICONS[s.status]}</span><span>${s.label}</span>${s.link ? `<a href="${s.link}" target="_blank" rel="noopener" class="step-link" title="${s.label}">&#x1F517;</a>` : ""}</li>`).join("")}
             </ul>
           </div>
 
