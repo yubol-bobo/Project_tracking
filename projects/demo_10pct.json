@@ -9,6 +9,7 @@
     { "label": "Paper Drafting",    "status": "pending" }
   ],
   "venue": "ICLR 2027",
+  "venueUrl": "https://openreview.net/group?id=ICLR.cc/2027/Conference",
   "timeline": [
     { "label": "Abstract Due",   "date": "2026-09-20" },
     { "label": "Full Paper Due", "date": "2026-09-27" },

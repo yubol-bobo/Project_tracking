@@ -9,6 +9,7 @@
     { "label": "Paper Drafting",    "status": "pending" }
   ],
   "venue": "CVPR 2026",
+  "venueUrl": "https://openreview.net/group?id=CVPR.cc/2026/Conference",
   "timeline": [
     { "label": "Abstract Due",   "date": "2026-03-01" },
     { "label": "Full Paper Due", "date": "2026-03-08" },

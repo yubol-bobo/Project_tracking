@@ -9,6 +9,7 @@
     { "label": "Paper Drafting",    "status": "done" }
   ],
   "venue": "AAAI 2026",
+  "venueUrl": "https://aaai.org/conference/aaai/aaai-26/",
   "timeline": [
     { "label": "Abstract Due",   "date": "2025-08-01" },
     { "label": "Full Paper Due", "date": "2025-08-08" },
