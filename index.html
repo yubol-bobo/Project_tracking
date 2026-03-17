@@ -171,10 +171,7 @@
       transition: width 0.5s ease;
     }
 
-    .bar-fill.low  { background: linear-gradient(90deg, var(--red), #f97316); }
-    .bar-fill.mid  { background: linear-gradient(90deg, #f97316, var(--yellow)); }
-    .bar-fill.high { background: linear-gradient(90deg, var(--yellow), var(--green)); }
-    .bar-fill.full { background: linear-gradient(90deg, var(--green), #06b6d4); }
+    .bar-fill { background: linear-gradient(90deg, #1e1b4b, #312e81, #4338ca, #6366f1, #818cf8, #a5b4fc); }
 
     /* Steps dropdown */
     .steps-panel { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
@@ -310,12 +307,7 @@
       return Math.round(steps.reduce((s, st) => s + (w[st.status]||0), 0) / steps.length * 100);
     }
 
-    function barClass(p) {
-      if (p >= 100) return "full";
-      if (p >= 66)  return "high";
-      if (p >= 33)  return "mid";
-      return "low";
-    }
+    function barClass() { return ""; }
 
     function tlStatus(events) {
       const today = new Date(); today.setHours(0,0,0,0);
