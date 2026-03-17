@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project Tracking</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
+    /* ---- Theme variables ---- */
+    [data-theme="dark"] {
       --bg: #0f1117;
       --card: #1a1d27;
-      --card-hover: #1f2230;
       --border: rgba(255,255,255,0.06);
       --text: #e4e4e7;
       --text-muted: #71717a;
@@ -19,6 +19,34 @@
       --yellow: #eab308;
       --blue: #3b82f6;
       --red: #ef4444;
+      --bar-bg: rgba(255,255,255,0.06);
+      --step-hover: rgba(255,255,255,0.03);
+      --step-pending-bg: rgba(255,255,255,0.08);
+      --tl-border: rgba(255,255,255,0.12);
+      --tl-date-color: rgba(255,255,255,0.2);
+      --toggle-bg: rgba(255,255,255,0.08);
+      --toggle-hover: rgba(255,255,255,0.12);
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f5f7;
+      --card: #ffffff;
+      --border: rgba(0,0,0,0.08);
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --accent: #6366f1;
+      --accent-glow: rgba(99,102,241,0.1);
+      --green: #16a34a;
+      --yellow: #ca8a04;
+      --blue: #2563eb;
+      --red: #dc2626;
+      --bar-bg: rgba(0,0,0,0.06);
+      --step-hover: rgba(0,0,0,0.03);
+      --step-pending-bg: rgba(0,0,0,0.06);
+      --tl-border: rgba(0,0,0,0.12);
+      --tl-date-color: rgba(0,0,0,0.3);
+      --toggle-bg: rgba(0,0,0,0.06);
+      --toggle-hover: rgba(0,0,0,0.1);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,6 +56,7 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
     }
 
     .page {
@@ -40,6 +69,7 @@
     .header {
       text-align: center;
       margin-bottom: 3rem;
+      position: relative;
     }
 
     .header h1 {
@@ -63,6 +93,30 @@
       margin-top: 0.4rem;
     }
 
+    /* Theme toggle */
+    .theme-toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 12px;
+      background: var(--toggle-bg);
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--toggle-hover);
+      transform: scale(1.08);
+    }
+
     /* Card */
     .card {
       background: var(--card);
@@ -70,7 +124,7 @@
       border-radius: 16px;
       padding: 1.6rem;
       margin-bottom: 1.25rem;
-      transition: border-color 0.3s, box-shadow 0.3s;
+      transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
     }
 
     .card:hover {
@@ -78,18 +132,8 @@
       box-shadow: 0 0 30px var(--accent-glow);
     }
 
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-
-    .card-desc {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 1.3rem;
-      line-height: 1.5;
-    }
+    .card-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .card-desc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.3rem; line-height: 1.5; }
 
     /* Section label */
     .section-label {
@@ -102,10 +146,7 @@
     }
 
     /* Progress bar */
-    .progress-wrap {
-      cursor: pointer;
-      margin-bottom: 0.3rem;
-    }
+    .progress-wrap { cursor: pointer; margin-bottom: 0.3rem; }
 
     .progress-top {
       display: flex;
@@ -114,20 +155,12 @@
       margin-bottom: 0.35rem;
     }
 
-    .progress-pct {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--accent);
-    }
-
-    .progress-hint {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-    }
+    .progress-pct { font-size: 0.8rem; font-weight: 600; color: var(--accent); }
+    .progress-hint { font-size: 0.7rem; color: var(--text-muted); }
 
     .bar-track {
       height: 8px;
-      background: rgba(255,255,255,0.06);
+      background: var(--bar-bg);
       border-radius: 4px;
       overflow: hidden;
     }
@@ -138,18 +171,13 @@
       transition: width 0.5s ease;
     }
 
-    .bar-fill.low    { background: linear-gradient(90deg, var(--red), #f97316); }
-    .bar-fill.mid    { background: linear-gradient(90deg, #f97316, var(--yellow)); }
-    .bar-fill.high   { background: linear-gradient(90deg, var(--yellow), var(--green)); }
-    .bar-fill.full   { background: linear-gradient(90deg, var(--green), #06b6d4); }
+    .bar-fill.low  { background: linear-gradient(90deg, var(--red), #f97316); }
+    .bar-fill.mid  { background: linear-gradient(90deg, #f97316, var(--yellow)); }
+    .bar-fill.high { background: linear-gradient(90deg, var(--yellow), var(--green)); }
+    .bar-fill.full { background: linear-gradient(90deg, var(--green), #06b6d4); }
 
     /* Steps dropdown */
-    .steps-panel {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease;
-    }
-
+    .steps-panel { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
     .steps-panel.open { max-height: 320px; }
 
     .steps {
@@ -170,7 +198,7 @@
       transition: background 0.2s;
     }
 
-    .steps li:hover { background: rgba(255,255,255,0.03); }
+    .steps li:hover { background: var(--step-hover); }
 
     .dot {
       width: 22px; height: 22px;
@@ -185,38 +213,22 @@
 
     .step-done    .dot { background: var(--green); color: #fff; }
     .step-current .dot { background: var(--yellow); color: #333; }
-    .step-pending .dot { background: rgba(255,255,255,0.08); color: var(--text-muted); }
+    .step-pending .dot { background: var(--step-pending-bg); color: var(--text-muted); }
     .step-pending span:last-child { color: var(--text-muted); }
 
     /* Timeline */
     .timeline-section { margin-top: 1.4rem; }
+    .venue-name { font-size: 0.8rem; font-weight: 600; color: var(--blue); margin-bottom: 0.6rem; }
 
-    .venue-name {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--blue);
-      margin-bottom: 0.6rem;
-    }
-
-    .timeline {
-      display: flex;
-      position: relative;
-      padding: 0 0.25rem;
-    }
+    .timeline { display: flex; position: relative; padding: 0 0.25rem; }
 
     .tl-track {
-      position: absolute;
-      top: 9px;
-      left: 0; right: 0;
-      height: 3px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 2px;
+      position: absolute; top: 9px; left: 0; right: 0;
+      height: 3px; background: var(--bar-bg); border-radius: 2px;
     }
 
     .tl-fill {
-      position: absolute;
-      top: 9px;
-      left: 0;
+      position: absolute; top: 9px; left: 0;
       height: 3px;
       background: linear-gradient(90deg, var(--accent), var(--blue));
       border-radius: 2px;
@@ -224,18 +236,14 @@
     }
 
     .tl-event {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      z-index: 2;
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; position: relative; z-index: 2;
     }
 
     .tl-dot {
       width: 10px; height: 10px;
       border-radius: 50%;
-      border: 2.5px solid rgba(255,255,255,0.12);
+      border: 2.5px solid var(--tl-border);
       background: var(--card);
       margin-bottom: 0.45rem;
       transition: all 0.3s;
@@ -243,24 +251,12 @@
 
     .tl-dot.past    { background: var(--accent); border-color: var(--accent); }
     .tl-dot.current { background: var(--card); border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); }
-    .tl-dot.future  { background: var(--card); border-color: rgba(255,255,255,0.1); }
+    .tl-dot.future  { background: var(--card); border-color: var(--tl-border); }
 
-    .tl-label {
-      font-size: 0.65rem;
-      text-align: center;
-      color: var(--text-muted);
-      line-height: 1.25;
-      max-width: 72px;
-    }
-
+    .tl-label { font-size: 0.65rem; text-align: center; color: var(--text-muted); line-height: 1.25; max-width: 72px; }
     .tl-label.past-label    { color: var(--text); }
     .tl-label.current-label { color: var(--accent); font-weight: 600; }
-
-    .tl-date {
-      font-size: 0.6rem;
-      color: rgba(255,255,255,0.2);
-      margin-top: 0.15rem;
-    }
+    .tl-date { font-size: 0.6rem; color: var(--tl-date-color); margin-top: 0.15rem; }
 
     @media (max-width: 600px) {
       .page { padding: 2rem 1rem; }
@@ -273,11 +269,30 @@
     <div class="header">
       <h1>Project Tracking</h1>
       <p>Updated <span id="update-date"></span></p>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" id="theme-btn"></button>
     </div>
     <div id="projects-container"></div>
   </div>
 
   <script>
+    // ---- Theme toggle ----
+    function getTheme() {
+      return localStorage.getItem("theme") || "dark";
+    }
+
+    function applyTheme(t) {
+      document.documentElement.setAttribute("data-theme", t);
+      document.getElementById("theme-btn").textContent = t === "dark" ? "\u2600\uFE0F" : "\uD83C\uDF19";
+    }
+
+    function toggleTheme() {
+      const next = getTheme() === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", next);
+      applyTheme(next);
+    }
+
+    applyTheme(getTheme());
+
     // ============================================================
     // EDIT YOUR PROJECTS HERE
     // ============================================================
