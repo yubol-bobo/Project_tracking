@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Tracking</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .last-updated {
+      text-align: center;
+      color: #999;
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+    }
+
+    .projects {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .project-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .submission-status {
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+    }
+
+    .status-draft        { background: #e3e8ef; color: #555; }
+    .status-in-progress   { background: #fff3cd; color: #856404; }
+    .status-submitted     { background: #cce5ff; color: #004085; }
+    .status-under-review  { background: #e8daef; color: #6c3483; }
+    .status-revision      { background: #ffeeba; color: #856404; }
+    .status-accepted      { background: #d4edda; color: #155724; }
+    .status-published     { background: #c3e6cb; color: #0b5345; }
+    .status-rejected      { background: #f8d7da; color: #721c24; }
+
+    .project-description {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .progress-section {
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 0.3rem;
+      color: #555;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: #e9ecef;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 5px;
+      transition: width 0.5s ease;
+    }
+
+    .fill-low       { background: #dc3545; }
+    .fill-medium    { background: #ffc107; }
+    .fill-high      { background: #28a745; }
+    .fill-complete  { background: #17a2b8; }
+
+    .project-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 1rem; }
+      .project-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Project Tracking</h1>
+  <p class="subtitle">Research Projects &amp; Paper Submissions</p>
+  <p class="last-updated">Last updated: <span id="update-date"></span></p>
+
+  <div class="projects" id="projects-container"></div>
+
+  <script>
+    // ============================================================
+    // EDIT YOUR PROJECTS HERE
+    // ============================================================
+    const projects = [
+      {
+        name: "Example Project A",
+        description: "A brief description of what this project is about.",
+        progress: 75,              // 0-100
+        submissionStatus: "submitted",  // see STATUS_LABELS below
+        venue: "NeurIPS 2026",
+        deadline: "2026-05-15",
+      },
+      {
+        name: "Example Paper B",
+        description: "Another project or paper you are working on.",
+        progress: 30,
+        submissionStatus: "in-progress",
+        venue: "ICML 2026",
+        deadline: "2026-07-01",
+      },
+      {
+        name: "Example Paper C",
+        description: "A published or accepted paper.",
+        progress: 100,
+        submissionStatus: "accepted",
+        venue: "CVPR 2026",
+        deadline: "",
+      },
+    ];
+    // ============================================================
+
+    const STATUS_LABELS = {
+      "draft":        "Draft",
+      "in-progress":  "In Progress",
+      "submitted":    "Submitted",
+      "under-review": "Under Review",
+      "revision":     "Revision",
+      "accepted":     "Accepted",
+      "published":    "Published",
+      "rejected":     "Rejected",
+    };
+
+    function getProgressClass(pct) {
+      if (pct >= 100) return "fill-complete";
+      if (pct >= 66)  return "fill-high";
+      if (pct >= 33)  return "fill-medium";
+      return "fill-low";
+    }
+
+    function renderProjects() {
+      const container = document.getElementById("projects-container");
+      container.innerHTML = projects.map(p => `
+        <div class="project-card">
+          <div class="project-header">
+            <div class="project-name">${p.name}</div>
+            <span class="submission-status status-${p.submissionStatus}">
+              ${STATUS_LABELS[p.submissionStatus] || p.submissionStatus}
+            </span>
+          </div>
+          <div class="project-description">${p.description}</div>
+          <div class="progress-section">
+            <div class="progress-label">
+              <span>Project Progress</span>
+              <span>${p.progress}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill ${getProgressClass(p.progress)}" style="width:${p.progress}%"></div>
+            </div>
+          </div>
+          <div class="project-meta">
+            ${p.venue ? `<span>Venue: ${p.venue}</span>` : ""}
+            ${p.deadline ? `<span>Deadline: ${p.deadline}</span>` : ""}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    document.getElementById("update-date").textContent = new Date().toLocaleDateString();
+    renderProjects();
+  </script>
+
+</body>
+</html>
