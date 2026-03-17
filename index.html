@@ -14,24 +14,9 @@
       padding: 2rem;
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 0.5rem;
-      font-size: 2rem;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #666;
-      margin-bottom: 2rem;
-    }
-
-    .last-updated {
-      text-align: center;
-      color: #999;
-      font-size: 0.85rem;
-      margin-bottom: 2rem;
-    }
+    h1 { text-align: center; margin-bottom: 0.5rem; font-size: 2rem; }
+    .subtitle { text-align: center; color: #666; margin-bottom: 2rem; }
+    .last-updated { text-align: center; color: #999; font-size: 0.85rem; margin-bottom: 2rem; }
 
     .projects {
       max-width: 900px;
@@ -48,43 +33,46 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    .project-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
+    .project-name { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .project-description { color: #666; font-size: 0.9rem; margin-bottom: 1.2rem; }
 
-    .project-name {
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .submission-status {
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 0.3rem 0.8rem;
-      border-radius: 20px;
-    }
-
-    .status-draft        { background: #e3e8ef; color: #555; }
-    .status-in-progress   { background: #fff3cd; color: #856404; }
-    .status-submitted     { background: #cce5ff; color: #004085; }
-    .status-under-review  { background: #e8daef; color: #6c3483; }
-    .status-revision      { background: #ffeeba; color: #856404; }
-    .status-accepted      { background: #d4edda; color: #155724; }
-    .status-published     { background: #c3e6cb; color: #0b5345; }
-    .status-rejected      { background: #f8d7da; color: #721c24; }
-
-    .project-description {
-      color: #666;
+    /* ---- Project Progress Bar ---- */
+    .section-title {
       font-size: 0.9rem;
-      margin-bottom: 1rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 0.4rem;
     }
 
-    .progress-section {
-      margin-bottom: 0.5rem;
+    .progress-bar-wrapper {
+      cursor: pointer;
+      user-select: none;
     }
+
+    .progress-bar-wrapper .hint {
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-top: 0.2rem;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background: #e9ecef;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.4s ease;
+    }
+
+    .fill-low       { background: #dc3545; }
+    .fill-medium    { background: #ffc107; }
+    .fill-high      { background: #28a745; }
+    .fill-complete  { background: #17a2b8; }
 
     .progress-label {
       display: flex;
@@ -94,35 +82,143 @@
       color: #555;
     }
 
-    .progress-bar {
-      height: 10px;
-      background: #e9ecef;
-      border-radius: 5px;
+    /* ---- Steps Dropdown ---- */
+    .steps-dropdown {
+      max-height: 0;
       overflow: hidden;
+      transition: max-height 0.35s ease;
     }
 
-    .progress-fill {
-      height: 100%;
-      border-radius: 5px;
-      transition: width 0.5s ease;
+    .steps-dropdown.open {
+      max-height: 400px;
     }
 
-    .fill-low       { background: #dc3545; }
-    .fill-medium    { background: #ffc107; }
-    .fill-high      { background: #28a745; }
-    .fill-complete  { background: #17a2b8; }
+    .steps-list {
+      list-style: none;
+      padding: 0.6rem 0 0.2rem 0;
+    }
 
-    .project-meta {
+    .steps-list li {
       display: flex;
-      gap: 1.5rem;
-      margin-top: 1rem;
-      font-size: 0.8rem;
-      color: #888;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 0.8rem;
+      font-size: 0.88rem;
+      border-radius: 6px;
     }
+
+    .steps-list li:nth-child(odd) { background: #f8f9fa; }
+
+    .step-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      flex-shrink: 0;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .step-done     .step-icon { background: #28a745; }
+    .step-current  .step-icon { background: #ffc107; color: #333; }
+    .step-pending  .step-icon { background: #ccc; }
+
+    .step-label { color: #333; }
+    .step-pending .step-label { color: #999; }
+
+    /* ---- Venue Timeline ---- */
+    .venue-section { margin-top: 1.4rem; }
+
+    .timeline {
+      display: flex;
+      align-items: flex-start;
+      position: relative;
+      margin-top: 0.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .timeline-track {
+      position: absolute;
+      top: 14px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: #e0e0e0;
+      border-radius: 2px;
+      z-index: 0;
+    }
+
+    .timeline-fill {
+      position: absolute;
+      top: 14px;
+      left: 0;
+      height: 4px;
+      background: #007bff;
+      border-radius: 2px;
+      z-index: 1;
+      transition: width 0.4s ease;
+    }
+
+    .timeline-event {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .timeline-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 3px solid #e0e0e0;
+      background: #fff;
+      margin-bottom: 0.4rem;
+      position: relative;
+      z-index: 3;
+    }
+
+    .timeline-dot.past {
+      background: #007bff;
+      border-color: #007bff;
+    }
+
+    .timeline-dot.current {
+      background: #fff;
+      border-color: #007bff;
+      box-shadow: 0 0 0 4px rgba(0,123,255,0.2);
+    }
+
+    .timeline-dot.future {
+      background: #fff;
+      border-color: #ccc;
+    }
+
+    .timeline-label {
+      font-size: 0.72rem;
+      text-align: center;
+      color: #666;
+      line-height: 1.2;
+      max-width: 80px;
+    }
+
+    .timeline-date {
+      font-size: 0.68rem;
+      color: #999;
+      text-align: center;
+      margin-top: 0.15rem;
+    }
+
+    .timeline-label.current-label { color: #007bff; font-weight: 600; }
+    .timeline-label.past-label { color: #333; }
 
     @media (max-width: 600px) {
       body { padding: 1rem; }
-      .project-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .timeline-label { font-size: 0.65rem; max-width: 60px; }
     }
   </style>
 </head>
@@ -142,24 +238,34 @@
       {
         name: "Example Project A",
         description: "A brief description of what this project is about.",
-        progress: 75,              // 0-100
-        submissionStatus: "submitted",  // draft | in-progress | submitted | under-review | revision | accepted | published | rejected
+        // Project steps: set status to "done", "current", or "pending"
+        steps: [
+          { label: "Idea Brainstorm",    status: "done" },
+          { label: "Experiment Design",  status: "done" },
+          { label: "Running Exp",        status: "current" },
+          { label: "Results",            status: "pending" },
+          { label: "Paper Drafting",     status: "pending" },
+        ],
+        // Venue submission timeline — dates drive auto-status
         venue: "NeurIPS 2026",
-        deadline: "2026-05-15",
+        timeline: [
+          { label: "Abstract Due",   date: "2026-05-10" },
+          { label: "Full Paper Due", date: "2026-05-17" },
+          { label: "Reviewing",      date: "2026-06-01" },
+          { label: "Review Release", date: "2026-07-15" },
+          { label: "Decision",       date: "2026-08-01" },
+        ],
       },
     ];
     // ============================================================
 
-    const STATUS_LABELS = {
-      "draft":        "Draft",
-      "in-progress":  "In Progress",
-      "submitted":    "Submitted",
-      "under-review": "Under Review",
-      "revision":     "Revision",
-      "accepted":     "Accepted",
-      "published":    "Published",
-      "rejected":     "Rejected",
-    };
+    const STEP_ICONS = { done: "\u2713", current: "\u25B6", pending: "\u2022" };
+
+    function getOverallProgress(steps) {
+      const weights = { done: 1, current: 0.5, pending: 0 };
+      const total = steps.reduce((sum, s) => sum + (weights[s.status] || 0), 0);
+      return Math.round((total / steps.length) * 100);
+    }
 
     function getProgressClass(pct) {
       if (pct >= 100) return "fill-complete";
@@ -168,32 +274,102 @@
       return "fill-low";
     }
 
+    function getTimelineStatus(events) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return events.map((ev, i) => {
+        const evDate = new Date(ev.date + "T00:00:00");
+        const nextDate = (i < events.length - 1) ? new Date(events[i + 1].date + "T00:00:00") : null;
+        let status;
+        if (today >= evDate && (nextDate === null || today < nextDate)) {
+          status = "current";
+        } else if (today >= evDate) {
+          status = "past";
+        } else {
+          status = "future";
+        }
+        return { ...ev, status };
+      });
+    }
+
+    function getTimelineFillPercent(events) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const dates = events.map(e => new Date(e.date + "T00:00:00"));
+      if (today <= dates[0]) return 0;
+      if (today >= dates[dates.length - 1]) return 100;
+      for (let i = 0; i < dates.length - 1; i++) {
+        if (today >= dates[i] && today < dates[i + 1]) {
+          const segStart = i / (dates.length - 1) * 100;
+          const segEnd = (i + 1) / (dates.length - 1) * 100;
+          const ratio = (today - dates[i]) / (dates[i + 1] - dates[i]);
+          return segStart + ratio * (segEnd - segStart);
+        }
+      }
+      return 0;
+    }
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr + "T00:00:00");
+      return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    }
+
+    function toggleSteps(id) {
+      document.getElementById(id).classList.toggle("open");
+    }
+
     function renderProjects() {
       const container = document.getElementById("projects-container");
-      container.innerHTML = projects.map(p => `
+      container.innerHTML = projects.map((p, idx) => {
+        const progress = getOverallProgress(p.steps);
+        const tlEvents = getTimelineStatus(p.timeline);
+        const fillPct = getTimelineFillPercent(p.timeline);
+        const stepsId = `steps-${idx}`;
+
+        return `
         <div class="project-card">
-          <div class="project-header">
-            <div class="project-name">${p.name}</div>
-            <span class="submission-status status-${p.submissionStatus}">
-              ${STATUS_LABELS[p.submissionStatus] || p.submissionStatus}
-            </span>
-          </div>
+          <div class="project-name">${p.name}</div>
           <div class="project-description">${p.description}</div>
-          <div class="progress-section">
+
+          <!-- Project Progress -->
+          <div class="section-title">Project Progress</div>
+          <div class="progress-bar-wrapper" onclick="toggleSteps('${stepsId}')">
             <div class="progress-label">
-              <span>Project Progress</span>
-              <span>${p.progress}%</span>
+              <span>Click to see steps</span>
+              <span>${progress}%</span>
             </div>
             <div class="progress-bar">
-              <div class="progress-fill ${getProgressClass(p.progress)}" style="width:${p.progress}%"></div>
+              <div class="progress-fill ${getProgressClass(progress)}" style="width:${progress}%"></div>
             </div>
           </div>
-          <div class="project-meta">
-            ${p.venue ? `<span>Venue: ${p.venue}</span>` : ""}
-            ${p.deadline ? `<span>Deadline: ${p.deadline}</span>` : ""}
+          <div class="steps-dropdown" id="${stepsId}">
+            <ul class="steps-list">
+              ${p.steps.map(s => `
+                <li class="step-${s.status}">
+                  <span class="step-icon">${STEP_ICONS[s.status]}</span>
+                  <span class="step-label">${s.label}</span>
+                </li>
+              `).join("")}
+            </ul>
           </div>
-        </div>
-      `).join("");
+
+          <!-- Venue Submission Timeline -->
+          <div class="venue-section">
+            <div class="section-title">Venue: ${p.venue}</div>
+            <div class="timeline">
+              <div class="timeline-track"></div>
+              <div class="timeline-fill" style="width:${fillPct}%"></div>
+              ${tlEvents.map(ev => `
+                <div class="timeline-event">
+                  <div class="timeline-dot ${ev.status}"></div>
+                  <div class="timeline-label ${ev.status}-label">${ev.label}</div>
+                  <div class="timeline-date">${formatDate(ev.date)}</div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>`;
+      }).join("");
     }
 
     document.getElementById("update-date").textContent = new Date().toLocaleDateString();
